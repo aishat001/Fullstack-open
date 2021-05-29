@@ -1,14 +1,6 @@
 import './App.css';
 import { useState } from "react";
-
-const Statistics = ({good, bad, neutral}) => {
-
-  return (  
-    <Statistics text='good' value={good}/>,
-    <Statistics text='neutral' value={neutral}/>,
-    <Statistics text='bad' value={bad}/>
-  );
-}
+import Statistics from './Statistics'
 
 const App = () => {
 
@@ -19,7 +11,7 @@ const App = () => {
 
    
   return (
-    <>
+    <div>
       <h1>Give Feedback</h1>
 
 
@@ -30,7 +22,7 @@ const App = () => {
       <h2>Statistics</h2>
       <Statistics good={good} neutral={neutral} bad={bad}/>
 
-    </>
+    </div>
   );
 }
 
