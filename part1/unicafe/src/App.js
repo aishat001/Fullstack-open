@@ -1,40 +1,34 @@
 import './App.css';
 import { useState } from "react";
 
+const Statistics = ({good, bad, neutral}) => {
+
+  return (  
+    <Statistics text='good' value={good}/>,
+    <Statistics text='neutral' value={neutral}/>,
+    <Statistics text='bad' value={bad}/>
+  );
+}
 
 const App = () => {
 
-  const [clicks, setClicks] = useState({
-    good: 0, neutral: 0, bad:0 })
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
 
 
-  const handleGood = () => {
-        setClicks({ good: clicks.good + 1});
-    
-  }
-  const handleNeutral = () => {
-        setClicks({ neutral: clicks.neutral + 1});
-    
-  }
-  const handleBad = () => {
-        setClicks({ bad: clicks.bad + 1});
-    
-  }
    
-
   return (
     <>
       <h1>Give Feedback</h1>
 
 
-      <button onClick={handleGood}>good</button>
-      <button onClick={handleNeutral}>neutral</button>
-      <button onClick={handleBad}>bad</button>
+      <button onClick={() => setGood( good + 1)}>good</button>
+      <button onClick={() => setNeutral( neutral + 1)}>neutral</button>
+      <button onClick={() => setBad( bad + 1)}>bad</button>
 
       <h2>Statistics</h2>
-      <p>good : {clicks.good}</p>
-      <p>neutral : {clicks.neutral}</p>
-      <p>bad : {clicks.bad}</p>
+      <Statistics good={good} neutral={neutral} bad={bad}/>
 
     </>
   );
