@@ -16,21 +16,24 @@ const App = () => {
   const positiveFeedback = (good / all) * 100;
    
   return (
-    <div>
+    <div className="app">
       <h1>Give Feedback</h1>
 
-
-      <button onClick={handleGood}>good</button>
-      <button onClick={handleNeutral}>neutral</button>
-      <button onClick={handleBad}>bad</button>
-
-      <h2>Statistics</h2>
-      <p>good: {good}</p>
-      <p>neutral : {neutral}</p>
-      <p>bad : {bad}</p>
-      <p>All : {all}</p>
-      <p>Average : {average}</p>
-      <p>positiveFeedback : {positiveFeedback}</p>
+      <div className="buttons">
+        <button onClick={handleGood}>good</button>
+        <button onClick={handleNeutral}>neutral</button>
+        <button onClick={handleBad}>bad</button>
+      </div>
+       
+      <div className="contents">
+        <h2>Statistics</h2>
+        <p>Good: {good}</p>
+        <p>Neutral : {neutral}</p>
+        <p>Bad : {bad}</p>
+        <p>All : {all}</p>
+        <p>Average : {average}</p>
+        <p>positiveFeedback : {positiveFeedback}</p>
+      </div>
 
     </div>
   );
