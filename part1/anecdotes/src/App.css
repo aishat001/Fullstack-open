@@ -1,0 +1,47 @@
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #efefef;
+  width: 300px;
+  height: 170px;
+  padding: 20px;
+  margin: 40px auto;
+  box-shadow: 2px 1px 3px #d0d0d0;
+
+}
+span {
+  font-size: 30px;
+  color: darkred;
+}
+button {
+  padding: 15px 30px;
+  border: 0px;
+  margin-right: 20px;
+}
+
+button:first-child {
+  background-color: mediumblue;
+  color: white;
+}
+button:last-child {
+  background-color: rgb(173, 69, 101);
+  color: white;
+}
+
+div > p {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
+  height: 120px;
+  background-color: #af3e3e26;
+  margin: auto;
+  padding: 30px;
+  box-shadow: 2px 1px 3px #d0d0d0;
+}
