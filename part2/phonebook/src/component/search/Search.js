@@ -1,23 +1,20 @@
 // import Person from "../person/Person";
 
-// const Search = ({searchForPerson, filteredNames, searchName, handleSearchName}) => {
-//     return ( 
-//         <div>
-//         <form onSubmit={searchForPerson}>
-//         filter shown with <input value={searchName} onChange={handleSearchName}/>
+const Search = ({searchForPerson, setfilteredNames, searchName, filteredNames, handleSearchName, numbersToShow}) => {
+    console.log();
+    return ( 
+        <div>
+        <form onSubmit={searchForPerson}>
+        filter shown with <input value={searchName} onChange={handleSearchName}/>
+        <button type="submit" onClick={() => setfilteredNames(!filteredNames)}> Show {filteredNames ? 'Filtered' : 'all' }</button>
         
-              
-//           <button type="submit"> search</button>
-//         </form>
+        </form>
 
-//         <div>
-//         {filteredNames.map(filteredName => {
-//             return <Person name={filteredName.name} number={filteredName.number}/> 
-//         }
-//         )}   
-//         </div>
-//         </div>
-//      );
-// }
+
  
-// export default Search;
+
+        </div>
+     );
+}
+ 
+export default Search;
