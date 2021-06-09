@@ -9,19 +9,20 @@ const Weather = ({countryMatch}) => {
     const countryCapital =  countryMatch.length === 1 ? countryMatch.map(country => country.capital).toString() : '';
     console.log(countryCapital);
 
-
     // fetch weather infrmation from API
     useEffect(() => {
 
         const params = {
-            access_key: 'a6abf7877b088770cae2508f5b3da03c',
+            access_key: process.env.REACT_APP_API_KEY,
             query: countryCapital
         };
 
         axios
             .get('http://api.weatherstack.com/current', {params})
             .then(res => console.log(setCondition(res.data.current)))
-            
+            console.log(params);
+            console.log(params.access_key);
+
     }, [countryCapital]);
 console.log(condition);
 
