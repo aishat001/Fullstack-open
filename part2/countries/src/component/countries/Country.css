@@ -1,0 +1,26 @@
+
+input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid black;
+    background-color: white;
+    border-radius: 2px;
+}
+p {
+    margin: 0px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+p.country {
+    background: #e7e7e7d4;
+    width: 280px;
+    padding: 20px;
+}
+img {
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-top: 20px;
+}
+li {
+    padding-left: 20px;
+}

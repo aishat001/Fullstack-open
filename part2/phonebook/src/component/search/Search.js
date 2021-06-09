@@ -5,9 +5,7 @@ const Search = ({searchForPerson, setfilteredNames, searchName, filteredNames, h
     return ( 
         <div>
         <form onSubmit={searchForPerson}>
-        filter shown with <input value={searchName} onChange={handleSearchName}/>
-        <button type="submit" onClick={() => setfilteredNames(!filteredNames)}> Show {filteredNames ? 'Filtered' : 'all' }</button>
-        
+        filter shown with <input value={searchName} onChange={handleSearchName} onClick={() => setfilteredNames(!filteredNames)}/>        
         </form>
 
 

@@ -1,32 +1,27 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Person from './component/person/Person';
+import PersonForm from './component/personform/PersonForm';
 import Search from './component/search/Search';
 // import Search from './component/search/Search';
 
 
 const App = () => {
-  const [persons, setpersons] = useState([
-    {
-      name: 'Aishat',
-      number: '08140308878'
-    },
-    {
-      name: 'kent',
-      number: '08140356878'
-    },
-    {
-      name: 'azeez',
-      number: '08140795878'
-    },
-  ]);
-
+  const [persons, setpersons] = useState([]);
   const [newName, setnewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchName, setSearchName] = useState('');
   const [filteredNames, setfilteredNames] = useState(true);
 
-
+useEffect(() => {
+  axios
+    .get('http://localhost:3002/persons')
+    .then(res => {
+      console.log(res.data)
+      setpersons(res.data)
+    });
+}, []);
 
   const addName = (e) => {
     e.preventDefault();
@@ -72,6 +67,7 @@ const App = () => {
  const  searchForPerson = (e) => {
   e.preventDefault();
     console.log(numbersToShow);
+    console.log(setpersons(numbersToShow));
  }
 
 
@@ -79,33 +75,22 @@ const App = () => {
   return (
     <div className="App">
       <h2>Phonebook</h2>
-        <Search filteredNames={filteredNames} numbersToShow={numbersToShow} handleSearchName={handleSearchName} searchForPerson={searchForPerson} setfilteredNames={setfilteredNames}/>
+      <Search filteredNames={filteredNames} numbersToShow={numbersToShow} handleSearchName={handleSearchName} searchForPerson={searchForPerson} setfilteredNames={setfilteredNames}/>
+      
+      <h2>Add a new</h2>
+      <PersonForm addName={addName} newNumber={newNumber} newName={newName} handleNewName={handleNewName} handleNewNumber={handleNewNumber}/>
 
-      <form onSubmit={addName} >
-        <div>
-          name: <input value={newName} onChange={handleNewName}/>
-          <p>{}</p>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNewNumber}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
       <h2>Numbers</h2>
-      <div>
-        {/* {persons.map(person => 
-          <Person key={person.id} person={person}/>
-          )} */}
-
-            {numbersToShow.map(filteredName => 
-            <Person key={filteredName.id} name={filteredName.name} number={filteredName.number}/>
+          {numbersToShow.map(filteredName => 
+      <Person key={filteredName.id} name={filteredName.name} number={filteredName.number}/>
         
         )}  
-      </div>
     </div>
   );
 }
 
 export default App;
+
+        // {/* {persons.map(person => 
+        //   <Person key={person.id} person={person}/>
+        //   )} */}
