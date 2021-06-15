@@ -33,20 +33,22 @@ import noteService from './services/notes'
     }
   
     const toggleImportanceOf = id => {
-      const note = notes.find(n => n.id === id)
-      const changedNote = { ...note, important: !note.important }
+      console.log('importance of ' + id + ' needs to be toggled')
+
+      // const note = notes.find(n => n.id === id)
+      // const changedNote = { ...note, important: !note.important }
     
-      noteService
-      .update(id, changedNote)
-        .then(returnedNote => {
-        setNotes(notes.map(note => note.id !== id ? note : returnedNote))
-      })
-      .catch(error => {
-        alert(
-          `the note '${note.content}' was already deleted from server`
-        )
-        setNotes(notes.filter(n => n.id !== id))
-      })    
+      // noteService
+      // .update(id, changedNote)
+      //   .then(returnedNote => {
+      //   setNotes(notes.map(note => note.id !== id ? note : returnedNote))
+      // })
+      // .catch(error => {
+      //   alert(
+      //     `the note '${note.content}' was already deleted from server`
+      //   )
+      //   setNotes(notes.filter(n => n.id !== id))
+      // })    
     }
   
     const handleNoteChange = (event) => {
@@ -66,6 +68,7 @@ import noteService from './services/notes'
             show {showAll ? 'important' : 'all' }
           </button>
         </div>   
+
         <ul>
           {notesToShow.map(note => 
               <Note
@@ -75,6 +78,7 @@ import noteService from './services/notes'
               />
           )}
         </ul>
+
         <form onSubmit={addNote}>
           <input
             value={newNote}

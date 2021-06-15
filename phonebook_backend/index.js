@@ -1,9 +1,21 @@
 const express = require('express')
 const nodemon = require('nodemon')
+const cors = require('cors')
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 
+// morgan(function (persons, req, res) {
+//     return [
+//         persons.method(req, res),
+//         persons.url(req, res),
+//         persons.status(req, res),
+//         persons.res(req, res, 'content-length'), '-',
+//         persons['response-time'](req, res), 'ms'
+//     ].join(' ')
+//   })
+  
 let persons = [
     {
         id: 1,
@@ -19,12 +31,18 @@ let persons = [
         id: 3,
         name:"azeez",
         number: "080908770"
+    },
+    {
+        id: 4,
+        name:"azeezfgh",
+        number: "0809087706"
     }
 ]
 
 app
     .get('/api/persons', (req, res) => {
         res.json(persons)
+        console.log(persons)
     })
 
 app
@@ -45,6 +63,10 @@ app.get('/api/persons/:id', (req, res) => {
 
     })
 
+    const generateId = id => {
+        const maxId = persons.length > 0 ? Math.max(...persons.map(person => person.id)) : 0
+        return maxId + 1
+    }
  app.post('/api/persons', (req, res) => {
         const body = req.body
         if(!body.name || !body.number) {
@@ -58,7 +80,7 @@ app.get('/api/persons/:id', (req, res) => {
         })
     } else  {
         const person = {
-            id: body.id,
+            id: generateId(),
             name: body.name,
             number: body.number
     
@@ -73,10 +95,11 @@ app.get('/api/persons/:id', (req, res) => {
 app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
     persons = persons.filter(person => person.id !== id)
+    
     res.status(204).end()
 })
 
-const PORT = 3001
+const PORT = 3002
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
