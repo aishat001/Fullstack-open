@@ -3,6 +3,7 @@ import Note from './component/note/Note'
 import noteService from './services/notes'
 import './App.css'
 import Notification from './component/notification/Notification'
+import Footer from './component/footer/Footer'
 
 
   const App = () => {
@@ -65,7 +66,7 @@ import Notification from './component/notification/Notification'
     : notes.filter(note => note.important)
   
     return (
-      <div>
+      <div className='App'>
         <h1>Notes</h1>
         <Notification message={errorMessage}/>
         <div>
@@ -91,6 +92,7 @@ import Notification from './component/notification/Notification'
           />
           <button type="submit">save</button>
         </form>  
+        <Footer />
       </div>
     )
   }

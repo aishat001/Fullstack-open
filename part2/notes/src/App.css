@@ -1,6 +1,6 @@
 .App {
   text-align: left;
-  padding: 20px;
+  padding: 30px;
 }
 
 .note {
@@ -8,12 +8,13 @@
   padding-top: 5px;
   font-size: 15px;
 }
-h1 {
+h1, h2 {
   color: green;
   font-style: italic;
 }
+
 .error {
-  /* display: none; */
+  width: 250px;
   color: red;
   background: lightgrey;
   font-size: 20px;
@@ -22,3 +23,4 @@ h1 {
   padding: 10px;
   margin-bottom: 10px;
 }
+
