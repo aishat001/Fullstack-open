@@ -8,6 +8,8 @@ const  PersonForm= ({addName, newName, handleNewName, newNumber, handleNewNumber
         </div>
         <div>
           number: <input value={newNumber} onChange={handleNewNumber}/>
+          <p>{}</p>
+
         </div>
         <div>
           <button type="submit">add</button>
