@@ -3,3 +3,22 @@
   padding: 20px;
 }
 
+.note {
+  color: grey;
+  padding-top: 5px;
+  font-size: 15px;
+}
+h1 {
+  color: green;
+  font-style: italic;
+}
+.error {
+  /* display: none; */
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
