@@ -2,7 +2,7 @@ import { useState } from "react"
 
 const NoteForm = ({createNote}) => {
     const [newNote, setNewNote] = useState('')
-
+    
     const handleNoteChange = (event) => {
         console.log(event.target.value)
         setNewNote(event.target.value)
