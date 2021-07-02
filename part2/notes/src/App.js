@@ -7,11 +7,11 @@ import Footer from './component/footer/Footer'
 import loginService from './services/login'
 import LoginForm from './component/LoginForm'
 import Togglable from './component/Togglable'
+import NoteForm from './component/NoteForm'
 
 
   const App = () => {
     const [notes, setNotes] = useState([])
-    const [newNote, setNewNote] = useState('')
     const [showAll, setShowAll] = useState(false)
     const [username, setUsername] = useState('azeez');
     const [password, setPassword] = useState('mypassword');
@@ -38,19 +38,11 @@ import Togglable from './component/Togglable'
       }
     }, [])  
   
-    const addNote = (event) => {
-      event.preventDefault()
-      const noteObject = {
-        content: newNote,
-        date: new Date().toISOString(),
-        important: Math.random() > 0.5,
-      }
-  
+    const addNote = (noteObject) => {  
       noteService
         .create(noteObject)
           .then(returnedNote => {
           setNotes(notes.concat(returnedNote))
-          setNewNote('')
         })
     }
   
@@ -73,10 +65,7 @@ import Togglable from './component/Togglable'
       })    
     }
   
-    const handleNoteChange = (event) => {
-      console.log(event.target.value)
-      setNewNote(event.target.value)
-    }
+ 
 
     const notesToShow = showAll
     ? notes
@@ -119,13 +108,7 @@ import Togglable from './component/Togglable'
       </Togglable>
     )
       const noteForm = () => (
-        <form onSubmit={addNote}>
-          <input
-            value={newNote}
-            onChange={handleNoteChange}
-            />
-          <button type="submit">save</button>
-        </form>  
+          <NoteForm createNote={addNote}/>
         )
 
     return (
