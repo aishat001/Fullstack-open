@@ -1,15 +1,34 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeNotification } from '../reducers/notifications'
 
 const Notification = () => {
+  const notification = useSelector(state => state.notification)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        dispatch(removeNotification());
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+    // eslint-disable-next-line
+  }, [notification]);
+
   const style = {
     border: 'solid',
     padding: 10,
-    borderWidth: 1
+    borderWidth: 1,
+    marginBottom: '20px'
   }
   return (
-    <div style={style}>
-      render here notification...
+    <div>
+      <div style={style}>
+        render Notification here...
+      {notification}
+      </div>
     </div>
   )
 }
