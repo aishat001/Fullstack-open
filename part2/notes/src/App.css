@@ -13,14 +13,21 @@ h1, h2 {
   font-style: italic;
 }
 
+.info {
+  color: green;
+}
+
 .error {
-  width: 250px;
   color: red;
-  background: lightgrey;
-  font-size: 20px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
+}
+
+.info,
+.error {
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 

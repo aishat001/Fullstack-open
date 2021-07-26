@@ -1,23 +1,23 @@
 import { useEffect } from "react";
 
-const Notification = ({message, setMessage,info, setInfo}) => {
+const Notification = ({errorMessage, setErrorMessage, info, setInfo}) => {
     
     useEffect(() => {
-        if (message || info) {
+        if (errorMessage || info) {
             const timer = setTimeout(() => {
-                setMessage(null);
+                setErrorMessage(null);
                 setInfo(null)
             }, 5000);
             return () => clearTimeout(timer)
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [message, info]);
+    }, [errorMessage, info]);
 
     return ( 
-        message ?
-        <div className="error">{message} </div>
+        errorMessage ?
+        <div className="error">{errorMessage} </div>
     : info ?
-    <div className="error">{message} </div>
+    <div className="info">{info} </div>
         :
         null
      );

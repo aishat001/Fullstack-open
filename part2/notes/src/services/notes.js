@@ -26,9 +26,14 @@ const update = (id, newObject) => {
   return request.then(response => response.data)
 }
 
+const remove = async (id) => {
+  const response = await axios.delete(`${baseUrl}/${id}`)
+  return response.data
+}
+
 // eslint-disable-next-line
 
 const exportObject = { 
-  getAll, create, update, setToken
+  getAll, create, update, setToken, remove
 };
 export default exportObject;

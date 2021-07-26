@@ -45,8 +45,21 @@ import NoteForm from './component/NoteForm'
           .then(returnedNote => {
           setNotes(notes.concat(returnedNote))
         })
+        setInfo('A new note is created')
     }
-  
+    
+    const deleteNote = async (id) => {
+      try {
+        const allNotes = [...notes]
+        await noteService.remove(id)
+        setNotes(allNotes.filter((note) => note.id !== id))
+        setInfo('Note deleted successfully')
+      }catch(error) {
+        console.log({ error })
+        setErrorMessage(error.response.data.error, 'error')
+      }
+    }
+
     const toggleImportanceOf = id => {
       const note = notes.find(n => n.id === id)
       const changedNote = { ...note, important: !note.important }
@@ -118,10 +131,10 @@ import NoteForm from './component/NoteForm'
     return (
       <div className='App'>
         <h1>Notes</h1>
-        <Notification message={errorMessage}
+        <Notification errorMessage={errorMessage}
          setInfo={setInfo}
          info={info}
-         setMessage={setErrorMessage}/>
+         setErrorMessage={setErrorMessage}/>
 
         {user === null ? 
         <div>
@@ -138,6 +151,7 @@ import NoteForm from './component/NoteForm'
                 key={note.id}
                 note={note} 
                 toggleImportance={() => toggleImportanceOf(note.id)}
+                deleteNote={() => deleteNote(note.id)}
                 />
               )}
             </ul>

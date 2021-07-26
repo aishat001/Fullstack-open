@@ -7,7 +7,7 @@ const store = createStore(reducer)
 
 const App = () => {
   const action = (type) => {
-    return () => {
+    return () => {;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       store.dispatch({
         type,
       })
