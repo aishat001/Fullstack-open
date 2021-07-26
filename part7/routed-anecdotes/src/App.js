@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link, Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, Route, BrowserRouter as Router, Switch, useParams } from 'react-router-dom'
 
 
 
@@ -7,7 +7,9 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id} >
+        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>)}
     </ul>
   </div>
 )
@@ -73,6 +75,23 @@ const CreateNew = (props) => {
 
 }
 
+const Notification = ({notification, setNotification}) => {
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [notification, setNotification])
+  
+  return (
+    <div>
+      <div>{notification}</div>
+    </div>
+  )
+}
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -90,49 +109,79 @@ const App = () => {
       id: '2'
     }
   ])
+  const [notification, setNotification] = useState('')
 
-  // const [notification, setNotification] = useState('')
+
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote "${anecdote.content}" has been created`)
   }
 
-  // const anecdoteById = (id) =>
-  //   anecdotes.find(a => a.id === id)
+  const anecdoteById = (id) =>
+    anecdotes.find(a => a.id === id)
 
-  // const vote = (id) => {
-  //   const anecdote = anecdoteById(id)
+  const vote = (id) => {
+    const anecdote = anecdoteById(id)
 
-  //   const voted = {
-  //     ...anecdote,
-  //     votes: anecdote.votes + 1
-  //   }
+    const voted = {
+      ...anecdote,
+      votes: anecdote.votes + 1
+    }
 
-  //   setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
-  // }
+    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
+  }
+  const Anecdotes = ({ vote, anecdoteById }) => {
+    const id = useParams().id
+    const anecdote = anecdoteById(id)
+
+    return (
+    <div>
+      <h2>
+        {anecdote.content} by {anecdote.author}
+      </h2>
+
+      <p>has {anecdote.votes} {anecdote.votes === 1 || anecdote.votes === 0  ? "vote" : "votes"}</p>
+      <button style={{ marginLeft: 5 }} onClick={() => vote(anecdote.id)}>vote</button>
+    
+    <p>
+      for more info see{" "} 
+      <a href={anecdote.info} target="_blank" rel="noopener noreferrer"> {anecdote.info} </a>
+    </p>
+    
+    </div>
+  )
+    }
 const padding = {
   padding : 10
 }
   return (
     <div>
         <h1>Software anecdotes</h1>
+        <Notification notification={notification} setNotification={setNotification}/>
       <Router>
         <div>
         <Link style={padding} to="/">anecdotes</Link>
-        <Link style={padding} to="/createnew">create new</Link>
+        <Link style={padding} to="/create">create new</Link>
         <Link style={padding} to="/about">about</Link>
+        {
+
+        }
       </div>
 
         <Switch>
+          <Route path="/anecdotes/:id">
+              <Anecdotes vote={vote} anecdoteById={anecdoteById}/>
+          </Route>
           <Route path="/about">
               <About/>
           </Route>
-          <Route path="/createnew">
+          <Route path="/create">
               <CreateNew addNew={addNew}/>
           </Route>
           <Route path="/">
-              <AnecdoteList anecdotes={anecdotes}/>
+             <AnecdoteList anecdotes={anecdotes}/>
           </Route>
         </Switch>
       </Router>
