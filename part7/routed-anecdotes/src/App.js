@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Alert, Button, Form, Nav, Navbar, Table } from 'react-bootstrap'
 import { Link, Route, BrowserRouter as Router, Switch, useParams } from 'react-router-dom'
 import { useField } from './hooks'
 
@@ -7,11 +8,16 @@ import { useField } from './hooks'
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
-    <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >
-        <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
-        </li>)}
-    </ul>
+    <Table striped>
+    <tbody>
+        {anecdotes.map(anecdote =>
+          <tr key={anecdote.id} >
+            <td>
+              <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+            </td>
+          </tr>)}
+      </tbody>
+    </Table>
   </div>
 )
 
@@ -66,20 +72,24 @@ const CreateNew = (props) => {
     <div>
       <h2>create a new anecdote</h2>
       <form onSubmit={handleSubmit} onReset={handleReset}>
-        <div>
-          content
-          <input {...content}/>
-        </div>
-        <div>
-          author
-          <input {...author}/>
-        </div>
-        <div>
-          url for more info
-          <input {...info} />
-        </div>
-        <button type='submit'>create</button>
-        <button type='reset'>reset</button>
+        <Form.Group>
+          <Form.Label>
+              content
+            </Form.Label>
+            <Form.Control {...content}/>
+            <Form.Label>
+              author
+            </Form.Label>
+            <Form.Control {...author}/>
+            <Form.Label>
+              url for more info
+            </Form.Label>
+            <Form.Control {...info} />
+
+          <Button variant="primary" type='submit'>create</Button>
+          <Button variant="secondary" type='reset'>reset</Button>
+        </Form.Group>
+
       </form>
     </div>
   )
@@ -98,9 +108,13 @@ const Notification = ({notification, setNotification}) => {
   }, [notification, setNotification])
   
   return (
-    <div>
-      <div>{notification}</div>
-    </div>
+<div className="container">
+  {(notification &&
+    <Alert variant="success">
+      {notification}
+    </Alert>
+  )}
+</div>
   )
 }
 
@@ -172,18 +186,27 @@ const padding = {
 }
 
   return (
-    <div>
+    <div className="container">
         <h1>Software anecdotes</h1>
         <Notification notification={notification} setNotification={setNotification}/>
+      
       <Router>
-        <div>
-        <Link style={padding} to="/">anecdotes</Link>
-        <Link style={padding} to="/create">create new</Link>
-        <Link style={padding} to="/about">about</Link>
-        {
-
-        }
-      </div>
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav className="mr-auto">
+              <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/">anecdotes</Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/create">create new</Link>
+              </Nav.Link>
+              <Nav.Link href="#" as="span">
+                  <Link style={padding} to="/about">about</Link>
+              </Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+      </Navbar>
 
         <Switch>
           <Route path="/anecdotes/:id">
