@@ -1,7 +1,7 @@
 
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeNotification } from '../reducers/notifications'
+import { removeNotification, setNotification } from '../reducers/notifications'
 
 const Notification = () => {
   const notification = useSelector(state => state.notification)
@@ -14,8 +14,7 @@ const Notification = () => {
       }, 5000);
       return () => clearTimeout(timer);
     }
-    // eslint-disable-next-line
-  }, [notification]);
+  }, [notification, dispatch]);
 
   const style = {
     border: 'solid',
