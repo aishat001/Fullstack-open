@@ -1,11 +1,17 @@
+input {
+  margin-bottom: 10px;
+}
+
+.notification,
 .info {
     color: green;
   }
   
+
   .error {
     color: red;
   }
-.info,
+.notification,
 .error {
     background: lightgrey;
     font-size: 20px;
@@ -30,4 +36,6 @@ button {
   background-color: #d7a386;
   border: none;
   padding: 8px 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
 }

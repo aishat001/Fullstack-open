@@ -1,19 +1,18 @@
 import blogService from '../../services/blogService'
 import { ActionTypes } from '../constants/action-types'
 
-export const initialBlogs = (blogs) => {
-  return {
-    type: ActionTypes.INITIAL_BLOGS,
-    blogs,
+
+
+export const initialBlogs = () => {
+  return async (dispatch) => {
+    const response = await blogService.getAll()
+    console.log(response.data)
+    dispatch({
+      type: ActionTypes.INITIAL_BLOGS,
+      data: response
+    })
   }
 }
-
-// export const fetchBlogFromDb = async () => {
-//   return async dispatch => {
-//     const blogs = await blogService.getAll()
-//     dispatch(initialBlogs(blogs))
-//   }
-// }
 
 export const createBlog = (newBlog) => {
   return {
@@ -22,20 +21,18 @@ export const createBlog = (newBlog) => {
   }
 }
 
-// export const createBlogInDb = async () => {
-//   return async dispatch => {
-//     const newBlog = await blogService.create()
-//     dispatch(createBlog(newBlog))
-//   }
-// }
-
 export const removeBlog = (id) => {
   return async dispatch => {
-    await blogService.remove(id)
-    dispatch({
-      type: ActionTypes.REMOVE_BLOG,
-      payload: id,
-    })
+    try {
+      await blogService.remove(id)
+      dispatch({
+        type: ActionTypes.REMOVE_BLOG,
+        payload: id,
+      })
+    } catch (error) {
+      console.log({ error })
+      setNotification(error.response.data.error, 'logged out')
+    }
   }
 }
 

@@ -21,15 +21,17 @@ const Notification = () => {
 
   return (
     <div>
-      {
-        notification ?
-          <div className="message">
-            {notification}
-          </div>
-          :
-          null
-      }
+      <div>
+        {
+          notification ?
+            <div className="notification">
+              {notification}
+            </div>
+            :
+            null
+        }
 
+      </div>
     </div>
   )
 }

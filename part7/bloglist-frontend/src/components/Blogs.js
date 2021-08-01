@@ -11,7 +11,7 @@ const Blogs = () => {
   const dispatch = useDispatch()
 
   useEffect( async() => {
-    dispatch(initialBlogs(await blogService.getAll()))
+    dispatch(initialBlogs())
   }, [dispatch])
 
   const handleLikeButton = async (blog) => {
