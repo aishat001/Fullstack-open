@@ -4,11 +4,11 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import BlogDetails from './components/BlogDetails'
 import Blogs from './components/Blogs'
 import Header from './components/Header'
+import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
-import Togglable from './components/Togglable'
 import User from './components/User'
 import Users from './components/Users'
-import { initialUser, login, logout } from './redux/reducers/loginReducer'
+import { initialUser, logout } from './redux/reducers/loginReducer'
 import { allUsers } from './redux/reducers/userReducer'
 // import blogService from './services/blogService'
 
@@ -24,28 +24,9 @@ const App = () => {
     dispatch(initialUser())
   }, [dispatch])
 
-  const handleLogin = (e) => {
-    e.preventDefault()
-    const username = e.target.username.value
-    const password = e.target.password.value
-    dispatch(login(username, password))
-  }
   const loginForm = () => (
     <div>
-      <h1>Blogs</h1>
-      <Togglable buttonLabel='click to Login'>
-        <form onSubmit={handleLogin}>
-          <div>
-      username:
-            <input id="username" type="text" name="username" value='Azeez'/>
-          </div>
-          <div>
-      password:
-            <input id="password" type="password" name="password" value='mypassword'/>
-          </div>
-          <button id="loginbtn" type="submit">login</button>
-        </form>
-      </Togglable>
+      <LoginForm />
     </div>
   )
   const handleLogout = (user) => {
@@ -54,8 +35,8 @@ const App = () => {
   }
 
   return (
-    <div>
-      <Notification/>
+    <div className="">
+      <Notification />
       {
         user === null ?
           loginForm()

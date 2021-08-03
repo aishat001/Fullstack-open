@@ -3,6 +3,7 @@
 /* eslint-disable linebreak-style */
 
 import { useEffect } from 'react'
+import { Alert } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeNotification } from '../redux/actions/blogActions'
 
@@ -24,9 +25,9 @@ const Notification = () => {
       <div>
         {
           notification ?
-            <div className="notification">
+            <Alert variant="success">
               {notification}
-            </div>
+            </Alert>
             :
             null
         }

@@ -16,11 +16,14 @@ const Blogs = () => {
   }, [])
 
   return (
-    <div>
-      <h1>Blog App</h1>
-      <Togglable buttonLabel="create a new note">
-        <BlogForm/>
-      </Togglable>
+    <div className="container">
+      <h1 className="mt-4">Blog App</h1>
+      <div className="mt-4 mb-4">
+        <Togglable buttonLabel="create a new note">
+          <BlogForm/>
+        </Togglable>
+      </div>
+
       {[]
         .concat(blogs)
         .map( blog =>

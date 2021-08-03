@@ -32,21 +32,21 @@ const BlogForm = () => {
   }
 
   return (
-    <form onSubmit={addBlog}>
+    <form onSubmit={addBlog} className="createForm col-sm-7 col-8">
       <h2>Create new Blog </h2>
       <div>
           Title:
-        <input id="title" type="text" name="title" />
+        <input type="text" name="title" className="form-control" id="floatingPassword" placeholder="blog's title"/>
       </div><br></br>
       <div>
           Author:
-        <input id="author" type="text" name="author" />
+        <input type="text" name="author" className="form-control" id="floatingPassword" placeholder="author name"/>
       </div><br></br>
       <div>
           Url:
-        <input id="url" type="text" name="url"/>
+        <input type="passtextword" name="url" className="form-control" id="floatingPassword" placeholder="blog's Url"/>
       </div><br></br>
-      <button type="submit">save</button>
+      <button className="w-100 btn-lg" id="loginbtn" type="submit">save</button>
     </form>
   )
 }
