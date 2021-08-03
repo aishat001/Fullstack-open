@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
-// import AUserBlogs from './components/AUserBlogs'
-import BlogForm from './components/BlogForm'
+import BlogDetails from './components/BlogDetails'
 import Blogs from './components/Blogs'
-import Blog from './components/Blogs'
 import Header from './components/Header'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
+import User from './components/User'
 import Users from './components/Users'
 import { initialUser, login, logout } from './redux/reducers/loginReducer'
 import { allUsers } from './redux/reducers/userReducer'
-import blogService from './services/blogService'
+// import blogService from './services/blogService'
 
 
 const App = () => {
   const user = useSelector(state => state.loginReducer)
-  // const users = useSelector(state => state.userReducer)
+  const users = useSelector(state => state.userReducer)
 
   const dispatch = useDispatch()
 
@@ -24,14 +23,6 @@ const App = () => {
     dispatch(allUsers())
     dispatch(initialUser())
   }, [dispatch])
-
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      blogService.setToken(user.token)
-    }
-  }, [])
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -46,7 +37,7 @@ const App = () => {
         <form onSubmit={handleLogin}>
           <div>
       username:
-            <input id="username" type="text" name="username" value='aeeshah'/>
+            <input id="username" type="text" name="username" value='Azeez'/>
           </div>
           <div>
       password:
@@ -71,22 +62,25 @@ const App = () => {
 
           :
           <div>
-            {user.name} logged-in <button onClick={handleLogout}>logout</button>
-
-            <Router key={Blog.id}>
-              <Header/>
-              <Switch key={Blog.id}>
-                <Route path="/" exact component={Blogs}/>
+            <Router key={Blogs.id}>
+              <Header user={user} handleLogout={handleLogout}/>
+              <Switch>
+                <Route exact path="/">
+                  <Blogs />
+                </Route>
+                <Route exact path="/users">
+                  <Users />
+                </Route>
                 <Route exact path="/users/:id">
-                  {/* <AUserBlogs users={users}/> */}
+                  <User users={users}/>
+                </Route>
+                <Route exact path="/blogs/:id">
+                  <BlogDetails users={users}/>
                 </Route>
                 <Users/>
               </Switch>
             </Router>
 
-            <Togglable buttonLabel="create a new note">
-              <BlogForm/>
-            </Togglable>
           </div>
       }
 

@@ -57,3 +57,20 @@ export const likeBlog = (updatedBlog) => {
     payload: updatedBlog,
   }
 }
+
+// export const addComment = (blog, comment) => {
+//   return async dispatch => {
+//     const updatedblog = await blogService.update(blog.id, { ...blog, comments : blog.comments.concat[comment] })
+//     dispatch({
+//       type: ActionTypes.ADD_COMMENT,
+//       data: updatedblog, comment
+//     })
+
+//   }
+// }
+export const addComment = (updatedBlog) => {
+  return {
+    type: ActionTypes.ADD_COMMENT,
+    data: updatedBlog,
+  }
+}

@@ -5,6 +5,8 @@ import { ActionTypes } from '../constants/action-types'
 
 const loginReducer = (state = null, action) => {
   switch (action.type) {
+  case ActionTypes.INITIAL_USER:
+    return action.data
   case ActionTypes.LOG_IN:
     return action.data
   case ActionTypes.LOG_OUT:
@@ -27,6 +29,7 @@ export const initialUser = () => {
     }
   }
 }
+
 export const login = (username, password) => {
   return async (dispatch) => {
     try {
@@ -34,8 +37,10 @@ export const login = (username, password) => {
         username,
         password,
       })
-      blogService.setToken(user.token)
-      window.localStorage.getItem('loggedBlogappUser')
+      console.log('logging in with', username, password, user)
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
       dispatch({
         type: ActionTypes.LOG_IN,
         data: user
