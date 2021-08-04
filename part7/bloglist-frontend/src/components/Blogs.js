@@ -27,7 +27,7 @@ const Blogs = () => {
       {[]
         .concat(blogs)
         .map( blog =>
-          <Link to={`/blogs/${blog.id}`} key={blog.id} className='blog'>
+          <Link to={`/blogs/${blog.id}`} key={blog.id} className='blog col-9 col-md-8 col-lg-7'>
             {blog.title}
           </Link>
         )}
