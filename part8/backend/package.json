@@ -1,5 +1,5 @@
 {
-  "name": "phonebook",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
   },
-  "author": "Waheed Aishat",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^3.1.2",
