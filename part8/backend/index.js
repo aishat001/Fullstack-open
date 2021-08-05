@@ -90,7 +90,7 @@ let authors = [
     },
   ]
 
-const typeDefs = gql`
+const typeDefs = gql` 
 
 type Author {
   name: String!
