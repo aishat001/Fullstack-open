@@ -119,9 +119,13 @@ type Author {
         published: Int!
         genres: [String!]!
       ) : Book
-    }
-    
 
+      editAuthor(
+        name: String!
+        born: Int!
+      ) : Author
+    
+    }   
 `
 
 const resolvers = {
@@ -150,24 +154,27 @@ const resolvers = {
 
       Mutation: {
         addBook: (root, args) => {
-
-          const book = {...args, id: uuid()}
+          if (books.find(book => book.author === args.author)) {
+                        throw new UserInputError('name must be unique', {
+                invalidArgs: args.name,
+            })
+          }
+          const book = {...args, id: uuid(), born: null}
           books = books.concat(book)
           return book
-        }
+        },
    
+        editAuthor: (root, args) => {
+          const author = authors.find(author => author.name === args.name)
+          if (!author) {
+              return null
+          }
+          const UpdatedAuthor = {...author, born : args.born}
+          authors = authors.map(a => a.name === args.name ? UpdatedAuthor : a)
+          return UpdatedAuthor
+        }
        
-      }
-    
-
-      // Book: {
-      //   author: (authors) => {
-      //     return {
-      //       name: authors.name,
-      //       born: authors.born,
-      //     }
-      //   }
-      // }
+      },
 }
 
 const server = new ApolloServer({
