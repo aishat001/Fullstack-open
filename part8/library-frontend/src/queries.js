@@ -35,5 +35,16 @@ mutation AddBookMutation($title: String!, $author: String!, $published: Int!, $g
     genres
   }
 }
-
+`
+export const ADD_BIRTH_YEAR = gql`
+mutation Mutation($name: String!, $born: Int!) {
+  editAuthor(
+    name: $name, 
+    born: $born
+    ) {
+    name
+    born
+    id
+  }
+}
 `
