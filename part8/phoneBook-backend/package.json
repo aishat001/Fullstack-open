@@ -10,6 +10,7 @@
   "author": "Waheed Aishat",
   "license": "ISC",
   "dependencies": {
+    "@apollo/client": "^3.4.5",
     "apollo-server": "^3.1.2",
     "graphql": "^15.5.1"
   },

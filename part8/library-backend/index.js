@@ -19,12 +19,9 @@ let authors = [
       born: 1821
     },
     { 
-      name: 'Joshua Kerievsky', // birthyear not known
-      id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
-    },
-    { 
       name: 'Sandi Metz', // birthyear not known
       id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
+      born: 00
     },
   ]
   
@@ -101,7 +98,7 @@ type Author {
     type Book {
       title: String!
       author: String!
-      published: Boolean!
+      published: Int!
       genres: [String!]!
     }
 
@@ -154,14 +151,16 @@ const resolvers = {
 
       Mutation: {
         addBook: (root, args) => {
-          if (books.find(book => book.author === args.author)) {
-                        throw new UserInputError('name must be unique', {
-                invalidArgs: args.name,
-            })
+          const book = { ...args, id: uuid() };
+          const author = authors.find((a) => a.name === args.author);
+    
+          if (!author) {
+            const newAuthor = { name: args.author, id: uuid(), born: 0000 };
+            authors = authors.concat(newAuthor);
           }
-          const book = {...args, id: uuid(), born: null}
-          books = books.concat(book)
-          return book
+    
+          books = books.concat(book);
+          return book;
         },
    
         editAuthor: (root, args) => {
