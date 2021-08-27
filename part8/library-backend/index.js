@@ -1,4 +1,3 @@
-const { v1: uuid } = require('uuid')
 const { ApolloServer, gql, UserInputError, AuthenticationError } = require('apollo-server');
 const config = require('./utils/config')
 const mongoose = require('mongoose');
@@ -87,8 +86,9 @@ const resolvers = {
       },
       allAuthors: () => Author.find({}),
       me: (root, args, context) => {
-        return context.currentUser
-      }
+        if (!context.user) return [];
+
+        return ['bob', 'jake'];      }
     },
 
       Author: {
@@ -175,14 +175,14 @@ const server = new ApolloServer({
     typeDefs,
     resolvers,
     context: async ({ req }) => {
-      const auth = req ? req.headers.authorization : null
-      if (auth && auth.toLowerCase().startsWith('bearer ')) {
+       const auth = req ? req.headers.authorization : null
+      if (auth) {
         const decodedToken = jwt.verify(
-          auth.substring(7), JWT_SECRET
+          auth.substring(7), config.JWT_SECRET
         )
-        const currentUser = await User.findById(decodedToken.id).populate('friends')
+        const currentUser = await User.findById(decodedToken.id)
         return { currentUser }
-      }
+        }
     }
 })
 

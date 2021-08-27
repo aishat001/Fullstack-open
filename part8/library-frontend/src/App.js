@@ -1,13 +1,16 @@
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 import Authors from './component/Authors';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import Books from './component/Books';
 import BookForm from './component/BookForm';
 
 function App() {
+  const [token, setToken] = useState(null);
 
-
+  if (!token) {
+    re
+  }
 
   return (
     <div className="App">

@@ -1,6 +1,6 @@
 import { useLazyQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { FIND_PERSON } from "./queries";
+import { FIND_PERSON } from "../queries";
 
 
 
@@ -22,6 +22,7 @@ const Persons = ({persons}) => {
 if (person) {
   return (
     <div>
+      <h1>Persons</h1>
       <h2>{person.name}</h2>
       <div>{person.address.street} {person.address.city}</div>
       <div>{person.phone}</div>
