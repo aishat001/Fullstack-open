@@ -1,19 +1,13 @@
 import { useQuery } from "@apollo/client";
-import { useEffect, useState } from "react";
 import { ALL_AUTHORS } from "../queries";
-import SetBirthYear from "./SetBirthYear";
+// import SetBirthYear from "./SetBirthYear";
 
 
 const Authors = () => {
-  const [authors, setAuthors] = useState([]);
   const getAuthors = useQuery(ALL_AUTHORS)
+  console.log(getAuthors);
+    // const authors = getAuthors.data.allAuthors
 
-  useEffect(() => {
-      if (getAuthors.data) {
-          const author = getAuthors.data.allAuthors
-          setAuthors(author)
-      }
-  }, [getAuthors.data]);
   
   if (getAuthors.loading) {
     return <div>Loading...</div>
@@ -31,7 +25,7 @@ const Authors = () => {
                 <th>bookCount</th>
               </tr>
               {
-                authors.map(author =>
+                getAuthors.data.allAuthors.map(author =>
                   <tr key={author.name}>
                     <td>{author.name}</td>
                     <td>{author.born}</td>
@@ -41,7 +35,7 @@ const Authors = () => {
             </tbody>
           </table>
           <br/>
-          <SetBirthYear authors={authors}/>
+          {/* <SetBirthYear authors={authors}/> */}
         </div>
      );
 }
