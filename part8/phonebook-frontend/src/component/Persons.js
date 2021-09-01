@@ -22,7 +22,6 @@ const Persons = ({persons}) => {
 if (person) {
   return (
     <div>
-      <h1>Persons</h1>
       <h2>{person.name}</h2>
       <div>{person.address.street} {person.address.city}</div>
       <div>{person.phone}</div>
@@ -33,6 +32,8 @@ if (person) {
 
   return (
         <div>
+                <h1>Persons</h1>
+
                   {persons.map(p =>
         <div key={p.name}>
           {p.name} {'   '} {p.phone}
