@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const Book = require('./models/book');
 const Author = require('./models/author');
 const User = require('./models/user');
+const { PubSub } = require('graphql-subscriptions');
+const pubsub = new PubSub()
 
 
 console.log('connenting to', config.MONGODB_URI);
@@ -18,6 +20,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology
 
 
 const typeDefs = gql` 
+
 type User {
   username: String!
   id: ID!
@@ -27,8 +30,8 @@ type Token {
 }
 type Author {
   name: String!
-  bookCount: Int! 
   born: Int!
+  bookCount: Int! 
   id: ID!
 }
 type Book {
@@ -36,12 +39,13 @@ type Book {
   author: Author!
   published: Int!
   genres: [String!]!
+  id: ID!
 }
 
 type Query {
   bookCount: Int!
   authorCount: Int!
-  allBooks(author: String, genres: String): [Book!]!
+  allBooks(author: String, genre: String): [Book!]!
   allAuthors: [Author!]!
   me: User
 }
@@ -49,6 +53,7 @@ type Query {
   type Mutation {
     addBook(
       title: String!
+      author: String!
       published: Int!
       genres: [String!]!
     ) : Book
@@ -68,32 +73,66 @@ type Query {
       username: String!
       password: String!
     ): Token
+  }  
+  type Subscription {
+    bookAdded: Book!
   }   
 `
 
 const resolvers = {
     Query: {
-      bookCount: () => Book.collection.countDocuments(),
+      bookCount: async () => {
+        const res = await Book.find({})
+        return res.length
+      }, // Book.collection.countDocuments()
       authorCount: () => Author.collection.countDocuments(),
 
-      allBooks: (root, args) => {
+      allBooks: async (root, args) => {
+        const books = await Book.find({}).populate('author')
+  
         if (args.author) {
-          return Book.find({ author: args.author})
-        } else if (args.genres) {
-          return Book.find({ genres: args.genres})
-          }
-        return Book.find({})
-      },
-      allAuthors: () => Author.find({}),
-      me: (root, args, context) => {
-        if (!context.user) return [];
+          const authorMatch = await Author.findOne({ name: args.author})
+            if (authorMatch) {
+              return  await Book.find({ author: authorMatch.id }).populate('author')
 
-        return ['bob', 'jake'];      }
-    },
+            }
+          if (args.genre) {
+            return await Book.find({ genres: { $in: [args.genre] } }).populate('author')
+          }
+      }
+  
+        return Book.find({}).populate('author')
+      },
+      // allBooks: async(root, args) => {
+      //   if (args.author) {
+      //     const foundAuthor = await Author.findOne({ name: args.author })
+      //     if (foundAuthor) {
+      //       if (args.genre) {
+      //         return await Book.find({ author: foundAuthor.id, genres: { $in: [args.genre] } }).populate('author')
+      //       }
+      //       return  await Book.find({ author: foundAuthor.id }).populate('author')
+      //     }
+      //     return null
+      //   }
+  
+      //   if (args.genre) {
+      //     return Book.find({ genres: { $in: [args.genre] } }).populate('author')
+      //   }
+  
+      //   return Book.find({}).populate('author')
+  
+      
+      // },
+      
+      allAuthors:async () => await Author.find({}),
+      me: (root, args, context) => {
+        return context.currentUser
+    }
+  },
 
       Author: {
-        bookCount: (root) => {
-          const bookMatch = books.filter( book => book.author === root.name )
+        bookCount:async (root) => {
+          const bookMatch =await Book.find({ author: root.id})
           return bookMatch.length
         }
       },
@@ -109,23 +148,36 @@ const resolvers = {
             })
            }
         },
-        addBook:async (root, args) => {
-          const book = new Book({...args})
-          const author = Author.find({})
-
+        addBook: async (_, args, context) => {
+          const currentUser = context.currentUser
+          if (!currentUser) {
+            throw new AuthenticationError("not authenticated")
+          }
+    
+          let author = await Author.findOne({ name: args.author })
+    
+          if (!author) {
+            author = await new Author({ name: args.author }).save()
+          }
+    
+          const book = new Book({
+            title: args.title,
+            published: args.published,
+            author,
+            genres: args.genres
+          })
+    
           try {
             await book.save()
-          } catch(error) {
-           throw new UserInputError(error.message, {
-              invalidArgs: args,
-           })
+          } catch (error) {
+            throw new UserInputError(error.message, { invalidArgs: args })
           }
-
-          return book;
+          pubsub.publish('BOOK_ADDED', { bookAdded: book })
+          return book
         },
-   
+
         editAuthor:async (root, args) => {
-          const author = await Author.findOne({ author: args.auth })
+          const author = await Author.findOne({ name: args.name })
           author.born = args.born
 
           try {
@@ -169,6 +221,11 @@ const resolvers = {
           return { value: jwt.sign(userForToken, process.env.JWT_SECRET) }
         },
       },
+      Subscription: {
+        bookAdded: {
+          subscribe: () => pubsub.asyncIterator(['BOOK_ADDED'])
+        },
+      },
 }
 
 const server = new ApolloServer({
@@ -186,6 +243,7 @@ const server = new ApolloServer({
     }
 })
 
-server.listen().then(({ url }) => {
-    console.log(`Server ready at ${url}`)
-  })
+server.listen(4000).then(({ url, subscriptionsUrl }) => {
+  console.log(`Server ready at ${url}`)
+  console.log(`Subscriptions ready at ${subscriptionsUrl}`)
+})
