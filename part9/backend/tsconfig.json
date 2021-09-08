@@ -1,0 +1,24 @@
+   //type config configuration
+   {
+	"compilerOptions": {
+		"outDir": "dist",
+		"target": "ESNext",
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"downlevelIteration": true,
+		"allowSyntheticDefaultImports": true,
+		"importHelpers": false,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"removeComments": true,
+		"noEmitOnError": true,
+		"noUnusedParameters": true,
+		"strict": true,
+		"alwaysStrict": false,
+		"noImplicitAny": false,
+		"typeRoots": ["node_modules/@types/"]
+	},
+	"include": ["index.ts"],
+	"exclude": ["node_modules", "dist", "__tests__"]
+}
